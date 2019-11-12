@@ -1,4 +1,6 @@
 import numpy as np
+import os
+import scipy.io as sio
 
 from PIL import Image
 
@@ -32,3 +34,11 @@ def array2img(x):
 def deg2rad(x):
     """Converts an angle in degrees to radians."""
     return (x * np.pi) / 180
+
+
+def load_affNIST(data_dir='data', batch_number=1):
+    data = sio.matlab.loadmat(os.path.join(data_dir, 'training_batches', '{}.mat'.format(batch_number)))
+    x = data['affNISTdata']['image'][0][0].transpose()/255.
+    data = sio.matlab.loadmat(os.path.join(data_dir, 'training.mat 2'))
+    y = data['affNISTdata']['image'][0][0].transpose()/255.
+    return x, y
